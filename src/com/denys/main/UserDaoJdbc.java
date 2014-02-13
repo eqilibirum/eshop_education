@@ -82,7 +82,67 @@ public class UserDaoJdbc implements UserDao {
         }
     }
 
-    public void insertUser(User user) throws DBSystemException, NotUniqueLoginException, NotUniqueMailException {
-
+    @Override
+    public void isertU(User user) throws DBSystemException {
+        Connection conn = getConnection();
+        PreparedStatement preparedStatement = null;
+        try {
+            conn.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
+            conn.setAutoCommit(false);
+            preparedStatement = conn.prepareStatement(INSERT_SQL);
+            preparedStatement.setString(1, user.getLogin());
+            preparedStatement.setString(2, user.getEmail());
+            preparedStatement.executeUpdate();
+            conn.commit();
+        } catch (SQLException e){
+            JdbcUtils.rollbackQuietly(conn);
+            throw new DBSystemException("Can't execute SQL = '" + INSERT_SQL + "'");
+        } finally {
+            JdbcUtils.closeQuietly(preparedStatement);
+            JdbcUtils.closeQuietly(conn);
+        }
     }
+
+/*    public void insertUser(User user) throws DBSystemException, NotUniqueLoginException, NotUniqueMailException {
+        Connection conn = getConnection();
+        PreparedStatement preparedStatement = null;
+        try{
+            conn.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
+            conn.setAutoCommit(false);
+
+            if (existWithLogin0(conn, user.getLogin())){
+                throw new NotUniqueLoginException("Login = " + user.getLogin() + " is already exist");
+            }
+            if (existWithMail0(conn, user.getEmail())){
+                throw new NotUniqueMailException("Email = " + user.getEmail() + " is already exist");
+            }
+
+            preparedStatement = conn.prepareStatement(INSERT_SQL);
+            preparedStatement.setString(1, user.getLogin());
+            preparedStatement.setString(2, user.getEmail());
+            preparedStatement.executeUpdate();
+            conn.commit();
+        } catch (SQLException e) {
+            JdbcUtils.rollbackQuietly(conn);
+            throw new DBSystemException("Can't execute SQL = '" + INSERT_SQL + "'");
+        } finally {
+            JdbcUtils.closeQuietly(preparedStatement);
+            JdbcUtils.closeQuietly(conn);
+        }
+    }
+
+    private boolean existWithLogin0(Connection conn, String login) throws SQLException{
+        PreparedStatement preparedStatement = conn.prepareStatement(SELECT_BY_LOGIN);
+        preparedStatement.setString(1, login);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        return resultSet.next();
+    }
+
+    private boolean existWithMail0(Connection conn, String email) throws SQLException{
+        PreparedStatement preparedStatement = conn.prepareStatement(SELECT_BY_MAIL);
+        preparedStatement.setString(1, email);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        return resultSet.next();
+    }*/
+
 }

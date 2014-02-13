@@ -12,6 +12,7 @@ public interface UserDao {
 
     public int deleteById(int id) throws DBSystemException;
 
-    public void insertUser(User user) throws DBSystemException, NotUniqueLoginException, NotUniqueMailException;
+    /*public void insertUser(User user) throws DBSystemException, NotUniqueLoginException, NotUniqueMailException;*/
 
+    public void isertU(User user) throws DBSystemException;
 }

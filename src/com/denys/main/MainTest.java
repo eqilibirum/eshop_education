@@ -22,12 +22,24 @@ public class MainTest {
             System.out.println( "User id = " + user.getId() + " deleted");
         }
 
-/*
-        System.out.println("INSERT NEW:");
-        dao.insertUser(newUser(1, "Mike" , "mike@mail"));
-        System.out.println(" User inserted. ");
+        System.out.println("INSERT");
+        dao.isertU(newUser(2, "John", "john@mail"));
+        dao.isertU(newUser(1, "Will", "will@mail"));
+        dao.isertU(newUser(3, "Alex", "alex@mail"));
+    }
+/*        System.out.println("INSERT NEW:");
+        dao.insertUser(newUser(1, "Phil", "phil@mail"));
+        System.out.println(" Phil inserted. ");
         dao.insertUser(newUser(2, "John", "john@mail"));
-*/
+        System.out.println(" John inserted. ");
+
+    */
+
+    private static User newUser(int id, String login, String email) {
+        User result = new User(id);
+        result.setLogin(login);
+        result.setEmail(email);
+        return result;
     }
 
 }
