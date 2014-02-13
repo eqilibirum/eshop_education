@@ -16,15 +16,18 @@ public class MainTest {
             System.out.println("   " + user.toString());
         }
 
-/*        System.out.println("DELETE:");
+        System.out.println("DELETE:");
         for (User user : dao.selectAll()){
+            dao.deleteById(user.getId());
             System.out.println( "User id = " + user.getId() + " deleted");
-        }*/
+        }
 
-/*        System.out.println("INSERT NEW:");
-        dao.insertUser(new User(1, "Mike" , "mike@mail"));
-        System.out.println("User inserted. INSERT NEW:");
-        dao.insertUser(new User(2, "John", "john@mail"));*/
+/*
+        System.out.println("INSERT NEW:");
+        dao.insertUser(newUser(1, "Mike" , "mike@mail"));
+        System.out.println(" User inserted. ");
+        dao.insertUser(newUser(2, "John", "john@mail"));
+*/
     }
 
 }
